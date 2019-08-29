@@ -2,13 +2,13 @@ class Api::ListsController < ApplicationController
 
   # GET /lists
   def index
-    #更新順で返す
+    # 後々のため、更新順で返します
     @lists = List.order('updated_at DESC')
   end
 
   # POST /lists
   def create
-    @list = List.new(list_prams)
+    @list = List.new(list_params)
 
     if @list.save
       render :show, status: :created
@@ -28,9 +28,10 @@ class Api::ListsController < ApplicationController
   end
 
   private
+    # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
       params.fetch(:list, {}).permit(
-        :name
+          :name, :is_done
       )
     end
-  end
+end
