@@ -31,7 +31,7 @@ class Api::ListsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
       params.fetch(:list, {}).permit(
-          :name, :is_done
+          :name
       )
     end
 end

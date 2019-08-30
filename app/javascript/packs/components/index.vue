@@ -2,8 +2,9 @@
   <div>
     <!-- 新規作成部分 -->
     <div class="row">
+      <p>新しいToDoを作成する</p>
       <div class="col s10 m11">
-        <input v-model="newList" class="form-control" placeholder="Add List">
+        <input v-model="newList" class="form-control" placeholder="リスト名を入力してください">
       </div>
       <div class="col s2 m1">
         <div v-on:click="createList" class="btn-floating waves-effect waves-light red">
@@ -16,7 +17,7 @@
       <ul class="collection">
         <li v-for="list in lists" v-bind:id="'row_list_' + list.id" class="collection-item">
           <label>
-            <span v-bind:for="'list_' + list.id">{{ list.name }}</span><br>
+            <router-link :to="'/list/' + list.id"><span>{{ list.name }}</span></router-link><br>
             <span>x個中x個がチュエック済み</span><br>
             <span>~yyyy年mm月dd日</span>
           </label>

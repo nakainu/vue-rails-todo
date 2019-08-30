@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  is_done: false
+  endline: 2019-08-29 22:05:56
+  list: one
+
+two:
+  name: MyString
+  is_done: false
+  endline: 2019-08-29 22:05:56
+  list: two
