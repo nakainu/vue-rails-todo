@@ -3,7 +3,7 @@ class Api::ListsController < ApplicationController
   # GET /lists
   def index
     # 後々のため、更新順で返します
-    @lists = List.order('updated_at DESC')
+    @lists = List.order('created_at DESC')
   end
 
   # POST /lists

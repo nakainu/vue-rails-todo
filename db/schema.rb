@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_130556) do
+ActiveRecord::Schema.define(version: 2019_08_30_182338) do
 
   create_table "lists", force: :cascade do |t|
     t.string "name", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2019_08_29_130556) do
   create_table "todos", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "is_done", default: false, null: false
-    t.time "deadline"
+    t.date "deadline", null: false
     t.integer "list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

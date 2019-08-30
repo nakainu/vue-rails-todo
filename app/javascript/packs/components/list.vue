@@ -4,7 +4,8 @@
     <!-- 新規作成部分 -->
     <div class="row">
       <div class="col s10 m11">
-        <input v-model="newTodo" class="form-control" placeholder="ToDo名">
+        <input v-model="newTodo" class="form-control" placeholder="ToDo名を入力してください">
+        <input v-model="newDate" type="date" placeholder="期限を選択してください">
       </div>
       <div class="col s2 m1">
         <div v-on:click="createTodo" class="btn-floating waves-effect waves-light red">
@@ -18,7 +19,9 @@
         <li v-for="todo in todos" v-if="!todo.is_done" v-bind:id="'row_todo_' + todo.id" class="collection-item">
           <label v-bind:for="'todo_' + todo.id">
             <input type="checkbox" v-on:change="doneTodo(todo.id)" v-bind:id="'todo_' + todo.id" />
-            <span>{{ todo.name }}</span>
+            <span>{{ todo.name }}</span><br>
+            <span>期限：{{ todo.deadline }}</span><br>
+            <span>作成日：{{ todo.created_at }}</span>
           </label>
         </li>
       </ul>
@@ -31,7 +34,9 @@
         <li v-for="todo in todos" v-if="todo.is_done"v-bind:id="'row_todo_' + todo.id" class="collection-item">
           <label v-bind:for="'todo_' + todo.id">
             <input input type="checkbox" v-bind:id="'todo_' + todo.id" checked="checked" />
-            <span class="line-through">{{ todo.name }}</span>
+            <span class="line-through">{{ todo.name }}</span><br>
+            <span class="line-through">期限：{{ todo.deadline }}</span><br>
+            <span class="line-through">作成日：{{ todo.created_at }}</span><br>
           </label>
         </li>
       </ul>
@@ -52,7 +57,8 @@
         id: '',
         lists: [],
         todos:[],
-        newTodo: ''
+        newTodo: '',
+        newDate: ''
       }
     },
     mounted: function () {
@@ -87,7 +93,7 @@
       createTodo: function () {
         if (!this.newTodo) return;
 
-        axios.post('/api/todos', { todo: { name: this.newTodo, list_id: this.id } }).then((response) => {
+        axios.post('/api/todos', { todo: { name: this.newTodo, deadline: this.newDate, list_id: this.id } }).then((response) => {
           this.todos.unshift(response.data.todo);
           this.newTodo = '';
         }, (error) => {
