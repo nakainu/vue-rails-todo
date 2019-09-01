@@ -4,7 +4,7 @@
     <div class="row">
       <p>検索したいToDoを入力する</p>
       <div class="col s10 m10">
-        <input v-model="searchTodos" class="form-control" placeholder="ToDoList or ToDo">
+        <input v-model="searchTodos" class="form-control" placeholder="検索したいワードを入力してください">
       </div>
       <div class="col s2 m2" v-on:click="searchList">
         <a class="waves-effect waves-light btn">検索</a>
