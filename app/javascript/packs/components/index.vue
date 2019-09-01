@@ -26,7 +26,7 @@
               </template>
               <template v-else>
                 <span>{{ list.todos.length }}個中{{ getDoneNum(list.todos) }}個がチュエック済み</span><br>
-                <span>〜 {{ getFirstDeadline(list.todos) }}</span>
+                <span>~{{ getFirstDeadline(list.todos) }}</span>
               </template>
 
             </template>
@@ -58,8 +58,6 @@
         lists: [],
         todos: [],
         newList: '',
-        filterDoneList: [],
-        sortList: [],
       }
     },
     mounted: function () {
