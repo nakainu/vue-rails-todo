@@ -59,7 +59,7 @@
         lists: [],
         todos: [],
         newList: '',
-        message: '',
+        message: ''
       }
     },
     mounted: function () {

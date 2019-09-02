@@ -15,6 +15,7 @@
       </div>
     </div>
   </div>
+  <p>{{ this.message }}</p>
   <!-- リスト表示部分 -->
   <div>
     <ul class="collection">
@@ -61,7 +62,8 @@ export default {
       lists: [],
       todos: [],
       newTodo: '',
-      newDate: ''
+      newDate: '',
+      message: ''
     }
   },
   mounted: function() {
@@ -94,20 +96,33 @@ export default {
       });
     },
     createTodo: function() {
-      if (!this.newTodo) return;
+      var matchTodoName = this.todos.filter(x => x.name == this.newTodo);
 
-      axios.post('/api/todos', {
-        todo: {
-          name: this.newTodo,
-          deadline: this.newDate,
-          list_id: this.id
-        }
-      }).then((response) => {
-        this.todos.unshift(response.data.todo);
-        this.newTodo = '';
-      }, (error) => {
-        console.log(error);
-      });
+      if (!this.newTodo) {
+        return this.message = 'ToDoの名称は1文字以上入力してください';
+
+      }
+      else if(this.newTodo.length > 30) {
+        return this.message = 'ToDoの名称は30文字以内にしてください';
+      }
+      else if(Object.keys(matchTodoName).length == 1){
+        return this.message = '作成するToDo名はすでに存在します';
+      }else{
+        axios.post('/api/todos', {
+          todo: {
+            name: this.newTodo,
+            deadline: this.newDate,
+            list_id: this.id
+          }
+        }).then((response) => {
+          this.todos.unshift(response.data.todo);
+          this.newTodo = '';
+          this.newDate = '';
+          this.message = '新しいToDoが作成されました';
+        }, (error) => {
+          console.log(error);
+        });
+      }
     },
     displayFinishedTodos: function() {
       document.querySelector('#finished-todos').classList.toggle('display_none');
