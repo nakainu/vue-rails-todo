@@ -14,7 +14,8 @@
 
     <div>
       <template v-if="fil_todos != null">
-        <p>ToDoが{{ fil_todos.length }}件見つかりました</p>
+        <p v-if="fil_todos.length == 0">登録されたToDoはございません</p>
+        <p v-else>ToDoが{{ fil_todos.length }}件見つかりました</p>
       </template>
       <template v-if="fil_todos != null">
         <ul class="collection" v-for="todo in fil_todos">
@@ -32,7 +33,8 @@
     <!-- 検索リスト一覧 -->
     <div>
       <template v-if="fil_lists != null">
-        <p>ToDoリストが{{ fil_lists.length }}件見つかりました</p>
+        <p v-if="fil_lists.length == 0">登録されたToDoリストはございません</p>
+        <p v-else>ToDoが{{ fil_lists.length }}件見つかりました</p>
       </template>
       <template v-if="fil_lists != null">
         <ul class="collection" v-for="list in fil_lists">

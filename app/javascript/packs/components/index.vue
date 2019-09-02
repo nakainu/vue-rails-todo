@@ -13,6 +13,8 @@
       </div>
     </div>
   </div>
+  <p>{{ this.message }}</p>
+
   <!-- リスト表示部分 -->
   <div>
     <template v-if="lists != null && todos != null">
@@ -28,7 +30,6 @@
                 <span>{{ list.todos.length }}個中{{ getDoneNum(list.todos) }}個がチュエック済み</span><br>
                 <span>~{{ getFirstDeadline(list.todos) }}</span>
               </template>
-
             </template>
             <template v-else>
               <span>ToDoがありません</span>
@@ -58,6 +59,7 @@
         lists: [],
         todos: [],
         newList: '',
+        message: '',
       }
     },
     mounted: function () {
@@ -75,7 +77,6 @@
             for(var i = 0; i < response.data.todos.length; i++) {
               this.todos.push(response.data.todos[i]);
             }
-
             this.concatenateArray();
 
           }, (error) => {
@@ -84,16 +85,32 @@
         }, (error) => {
           console.log(error);
         });
+
       },
       createList: function () {
-        if (!this.newList) return;
+        // リストの名前と新しいリストの名前が同じか否か
+        var matchListName = this.lists.filter(x => x.name == this.newList);
 
-        axios.post('/api/lists', { list: { name: this.newList } }).then((response) => {
-          this.lists.unshift(response.data.list);
-          this.newList = '';
-        }, (error) => {
-          console.log(error);
-        });
+        if(!this.newList){
+          return this.message = 'ToDoリストの名称は1文字以上入力してください';
+
+        }
+        else if(this.newList.length > 30){
+          return this.message = 'ToDoリストの名称は30文字以内にしてください';
+
+        }
+        else if(Object.keys(matchListName).length == 1){
+          return this.message = '作成するToDoリスト名はすでに存在します'
+
+        }else{
+          axios.post('/api/lists', { list: { name: this.newList } }).then((response) => {
+            this.lists.unshift(response.data.list);
+            this.newList = '';
+            this.message = '新しいToDoリストが作成されました';
+          }, (error) => {
+            console.log(error);
+          });
+        }
       },
       // listsとtodosを結合する関数
       concatenateArray: function () {
@@ -118,7 +135,7 @@
         }
         return count;
       },
-      getFirstDeadline: function(list){
+      getFirstDeadline: function(list) {
         var list = list.filter( function( value ) {
           return value.is_done == false;
         });
@@ -127,6 +144,9 @@
         }else{
           return list[0].deadline;
         }
+      },
+      errordefault: function () {
+
       }
     }
   }
