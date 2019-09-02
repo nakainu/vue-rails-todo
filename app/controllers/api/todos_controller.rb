@@ -27,6 +27,16 @@ class Api::TodosController < ApplicationController
     end
   end
 
+  # PATCH/PUT / todos/1
+  def destroy
+    @todo = Todo.find(params[:id])
+    if @todo.destroy
+      head :no_content
+    else
+      render json: @book.errors, status: :unprocessable_entity
+    end
+  end
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params

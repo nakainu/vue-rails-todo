@@ -71,6 +71,7 @@ export default {
     this.fetchLists();
   },
   methods: {
+    // 検索したToDoの表示
     fetchLists: function () {
       // listsを取得
       axios.get('/api/lists').then((response) => {
@@ -104,6 +105,7 @@ export default {
         }
       }
     },
+    // リストの検索
     searchList: function () {
       var result_list = [];
       var result_todo = [];
@@ -128,29 +130,20 @@ export default {
       this.fil_todos = result_todo;
 
     },
+    // idを比較
     comparisonId: function (list_id) {
       var list = this.lists.filter( function( value ) {
         return value.id == list_id;
       });
       return list[0].name;
     },
+    // 遷移するidを取得
     routerListId: function (list_id) {
       var list = this.lists.filter( function( value ) {
         return value.id == list_id;
       });
       return list[0].id;
     },
-
-    getFirstDeadline: function(list){
-      var list = list.filter( function( value ) {
-        return value.is_done == false;
-      });
-      if(list[0] === undefined){
-        return '';
-      }else{
-        return list[0].deadline;
-      }
-    }
   }
 }
 </script>

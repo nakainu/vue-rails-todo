@@ -34,11 +34,12 @@
   <!-- 完了済みタスク一覧 -->
   <div id="finished-todos" class="display_none">
     <ul class="collection">
-      <li v-for="todo in todos" v-if="todo.is_done" v-bind:id="'row_todo_' + todo.id" class="collection-item">
+      <li v-for="(todo,index) in todos" v-if="todo.is_done" v-bind:id="'row_todo_' + todo.id" class="collection-item">
         <label v-bind:for="'todo_' + todo.id">
-            <input v-on:change="yetTodo(todo.id)" type="checkbox" v-bind:id="'todo_' + todo.id" checked="checked" />
+            <input v-on:click="yetTodo(todo.id)" type="checkbox" v-bind:id="'todo_' + todo.id" checked="checked" />
             <span class="line-through">{{ todo.name }}</span><br>
-            <span class="line-through">期限：{{ todo.deadline }}</span><br>
+            <span class="line-through">期限：{{ todo.deadline }}</span>
+            <span class="line-through right"><a v-on:click="deleteTodo(index, todo.id)" class="waves-effect waves-light btn-small red">削除</a></span><br>
             <span class="line-through">作成日：{{ todo.created_at }}</span><br>
           </label>
       </li>
@@ -70,6 +71,7 @@ export default {
     this.fetchListTodo();
   },
   methods: {
+    // ToDoの表示(初期状態)
     fetchListTodo: function() {
       var id = this.$route.params.id;
       this.id = id;
@@ -95,6 +97,7 @@ export default {
         console.log(error);
       });
     },
+    //　ToDoの作成
     createTodo: function() {
       var matchTodoName = this.todos.filter(x => x.name == this.newTodo);
 
@@ -124,47 +127,53 @@ export default {
         });
       }
     },
+    // 完了済みボタン
     displayFinishedTodos: function() {
       document.querySelector('#finished-todos').classList.toggle('display_none');
     },
+    // id_doneをtrueに変更
     doneTodo: function(todo_id) {
       axios.put('/api/todos/' + todo_id, {
         todo: {
           is_done: 1
         }
       }).then((response) => {
-        // this.moveFinishedTodo(todo_id);
-
         for (var i = 0; i < this.todos.length; i++) {
           if(this.todos[i].id == todo_id){
             this.todos[i].is_done = true;
           }
         }
-
       }, (error) => {
         console.log(error);
       });
     },
+    // is_doneをfalseに変更
     yetTodo: function(todo_id) {
       axios.put('/api/todos/' + todo_id, {
         todo: {
           is_done: 0
         }
       }).then((response) => {
-
         for (var i = 0; i < this.todos.length; i++) {
           if(this.todos[i].id == todo_id){
             this.todos[i].is_done = false;
           }
         }
-
       }, (error) => {
         console.log(error);
       });
     },
+    // ToDoの削除
+    deleteTodo: function (index, todo_id) {
+      axios.delete('/api/todos/' + todo_id)
+      .then((response) => {
+        this.todos.splice(index, 1);
+      }, (erro) => {
+        console.log(error);
+      });
+
+    }
   },
-  watch: {
-  }
 }
 </script>
 

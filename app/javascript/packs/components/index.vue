@@ -66,6 +66,7 @@
       this.fetchLists();
     },
     methods: {
+      // ToDoリストの表示
       fetchLists: function () {
         // listsを取得
         axios.get('/api/lists').then((response) => {
@@ -87,6 +88,7 @@
         });
 
       },
+      //リストの作成
       createList: function () {
         // リストの名前と新しいリストの名前が同じか否か
         var matchListName = this.lists.filter(x => x.name == this.newList);
@@ -100,7 +102,7 @@
 
         }
         else if(Object.keys(matchListName).length == 1){
-          return this.message = '作成するToDoリスト名はすでに存在します'
+          return this.message = '作成するToDoリスト名はすでに存在します';
 
         }else{
           axios.post('/api/lists', { list: { name: this.newList } }).then((response) => {
@@ -135,6 +137,7 @@
         }
         return count;
       },
+      // リストの中のToDoで最も期限が早いものを返す
       getFirstDeadline: function(list) {
         var list = list.filter( function( value ) {
           return value.is_done == false;
@@ -145,9 +148,6 @@
           return list[0].deadline;
         }
       },
-      errordefault: function () {
-
-      }
     }
   }
   </script>
