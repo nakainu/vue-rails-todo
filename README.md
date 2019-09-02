@@ -59,11 +59,15 @@ http://localhost:5000
 | updated_at | DATETIME | NULL: false |
 | list_id | INDEX | name: "index_todos_on_list_id" |
 
+
 listsのidとtodosのlist_idは1対多の関係になります。
 
+
 フロントエンドをVue.jsで構築。Vue-Routerを使用しSPAっぽさを実現しました。
+
 CSSフレームワークにはMaterializeを使用。
-実装したメインの機能は
+
+実装したメインの機能は、
 * ToDoリストの登録
 * ToDoの登録
 * ToDoの状態遷移
@@ -71,4 +75,5 @@ CSSフレームワークにはMaterializeを使用。
 * 検索機能
 
 上記の機能を実装しました。
+
 表示や追加、編集、削除の機能を実装するためにAixosを使用しAPI通信を行っています。
